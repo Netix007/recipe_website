@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}{{ recipe.name }}{% endblock %}
+{% block content %}
+<div style="display: flex; flex-direction: column; gap: 10px">
+    <h3>{{ recipe.name }}</h3>
+    <p><img src="{{ recipe.image.url }}"></p>
+    <p>{{ recipe.ingredients }}</p>
+    <p>{{ recipe.description }}</p>
+    <p>{{ recipe.cooking_steps }}</p>
+    <p>{{ recipe.cooking_time }}</p>
+    <p>{{ recipe.author }}</p>
+</div>
+{% endblock %}

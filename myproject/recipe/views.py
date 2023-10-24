@@ -1,10 +1,15 @@
 import logging
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import RecipeForm
 from .models import Recipe
 
 logger = logging.getLogger(__name__)
+
+
+def recipe_full(request, recipe_id):
+    post = get_object_or_404(Recipe, pk=recipe_id)
+    return render(request, 'recipe/recipe_full.html', {'recipe': post})
 
 
 def recipe_form(request):

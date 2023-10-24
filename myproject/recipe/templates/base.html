@@ -5,8 +5,14 @@
     <title>{% block title %}Формы{% endblock %}</title>
 </head>
 <body>
-    {% block content %}
-    Контент скоро появится...
-    {% endblock %}
+    <div>
+        <a href="{% url 'recipe_add_form' %}">Главная</a>
+        <a href="{% url 'recipe_add_form' %}">Добавить рецепт</a>
+    </div>
+    <div>
+        {% block content %}
+        Контент скоро появится...
+        {% endblock %}
+    </div>
 </body>
 </html>
