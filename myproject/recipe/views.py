@@ -7,6 +7,11 @@ from .models import Recipe
 logger = logging.getLogger(__name__)
 
 
+def index(request):
+    random_recipe = Recipe.objects.order_by('?')[:5]
+    return render(request, 'index.html', {'random_recipe': random_recipe})
+
+
 def recipe_full(request, recipe_id):
     post = get_object_or_404(Recipe, pk=recipe_id)
     return render(request, 'recipe/recipe_full.html', {'recipe': post})
