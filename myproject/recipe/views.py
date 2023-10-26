@@ -1,8 +1,12 @@
 import logging
 
 from django.shortcuts import render, get_object_or_404
-from .forms import RecipeForm
+from .forms import RecipeForm, UserRegisterForm, UserLoginForm
 from .models import Recipe
+from django.views.generic import CreateView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 
 logger = logging.getLogger(__name__)
 
@@ -35,3 +39,31 @@ def recipe_form(request):
     else:
         form = RecipeForm()
     return render(request, 'recipe/recipe_add_form.html', {'form': form})
+
+
+class UserRegisterView(SuccessMessageMixin, CreateView):
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('index')
+    template_name = 'recipe/register.html'
+    success_message = 'Вы успешно зарегистрировались. Можете войти на сайт!'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация на сайте'
+        return context
+
+
+class UserLoginView(SuccessMessageMixin, LoginView):
+    form_class = UserLoginForm
+    template_name = 'recipe/login.html'
+    next_page = 'index'
+    success_message = 'Добро пожаловать на сайт!'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Авторизация на сайте'
+        return context
+
+
+class UserLogoutView(LogoutView):
+    next_page = 'index'
