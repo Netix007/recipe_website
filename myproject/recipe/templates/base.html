@@ -1,25 +1,53 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Формы{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Open+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <div>
-        <a href="{% url 'index' %}">Главная</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'recipe_add_form' %}">Добавить рецепт</a>
-            <span>Пользователь: {{ request.user }}</span>
-            <a class="dropdown-item dd-item-color" href="{% url 'logout' %}">Выйти</a>
-        {% else %}
-            <a href="{% url 'register' %}">Регистрация</a>
-            <a href="{% url 'login' %}">Вход</a>
-        {% endif %}
+    <div class="top__header center">
+        <div class="header__menu">
+            <div class="block__logo">
+                <img src="{% static 'img/logo.png.webp' %}" alt="logo">
+            </div>
+            <div class="block__center">
+                <a class="header__button" href="{% url 'index' %}">Главная</a>
+                {% if user.is_authenticated %}
+                    <a class="header__button" href="{% url 'recipe_add_form' %}">Добавить рецепт</a>
+                {% endif %}
+            </div>
+            <div class="block__login">
+                {% if user.is_authenticated %}
+                    <span>Пользователь: {{ request.user }}</span>
+                    <a class="header__button" href="{% url 'logout' %}">Выйти</a>
+                {% else %}
+                    <a class="header__button" href="{% url 'register' %}">Регистрация</a>
+                    <a class="header__button" href="{% url 'login' %}">Вход</a>
+                {% endif %}
+            </div>
+        </div>
+
     </div>
-    <div>
+    <div class="main__block center">
         {% block content %}
         Контент скоро появится...
         {% endblock %}
+    </div>
+    <div class="footer center">
+        <p class="footer__text">
+            Copyright ©
+            <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+            <script>document.write(new Date().getFullYear());</script>
+             All rights reserved | This template is made with
+            <i class="fa fa-heart-o" aria-hidden="true"></i>
+            by Alex
+        </p>
     </div>
 </body>
 </html>

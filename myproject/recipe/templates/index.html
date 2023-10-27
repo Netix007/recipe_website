@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Главная{% endblock %}
 {% block content %}
-<div style="display: flex; flex-direction: column; gap: 10px">
-    {% for recipe in random_recipe %}
-        <p>{{ recipe.name }}</p>
-        <p><img src="{{ recipe.image.url }}"></p>
-        <form action="{% url 'recipe_full' recipe.id %}">
-            <input type="submit" value="Подробнее" />
-        </form>
+<div class="container">
+    {% for num, recipe in random_recipe.items %}
+        <div class="block_{{ num }}">
+            <p>
+                <span>{{ recipe.name }}</span>
+                <img src="{{ recipe.image.url }}"></p>
+            <form action="{% url 'recipe_full' recipe.id %}">
+                <input type="submit" value="Подробнее" />
+            </form>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
