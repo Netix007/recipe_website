@@ -21,12 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q7w!+a2ndn0^%z(0&2@-!ti3&vp-jf&38a0787ap2_6bkps7hl'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'AlexWinney.pythonanywhere.com',
+]
 
 
 # Application definition
@@ -76,11 +80,19 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'AlexWinney$default',
+        'USER': 'AlexWinney',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'AlexWinney.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'init_command': "SET NAMES 'utf8mb4';SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+            },
+        }
 }
+
 
 
 # Password validation
@@ -120,7 +132,7 @@ USE_TZ = True
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'static/'
 
 
 MEDIA_URL = '/media/'
