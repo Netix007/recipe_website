@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Каталог рецептов{% endblock %}
+{% block content %}
+  <div>
+    <h2>Каталог рецептов</h2>
+    {% for recipe in page_recipes %}
+      <div>
+          <h3><a href="{% url 'recipe_full' recipe.id %}">{{ recipe.name }}</a></h3>
+      </div>
+    {% endfor %}
+    {% if page_recipes.has_other_pages %}
+      <div>
+          {% if page_recipes.has_previous %}
+              <a href="?page={{ page_recipes.previous_page_number }}&perPage={{ page_recipes.paginator.per_page }}">previous</a>
+          {% endif %}
+          <span>{{ page_recipes.number }}</span>
+          {% if page_recipes.has_next %}
+              <a href="?page={{ page_recipes.next_page_number }}&perPage={{ page_recipes.paginator.per_page }}">next</a>
+          {% endif %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

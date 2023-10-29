@@ -7,6 +7,8 @@ from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+from django.core.paginator import Paginator
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +46,10 @@ def recipe_form(request):
     return render(request, 'recipe/recipe_add_form.html', {'form': form})
 
 
+class HomePageView(TemplateView):
+    template_name = 'index.html'
+
+
 class UserRegisterView(SuccessMessageMixin, CreateView):
     form_class = UserRegisterForm
     success_url = reverse_lazy('index')
@@ -70,3 +76,14 @@ class UserLoginView(SuccessMessageMixin, LoginView):
 
 class UserLogoutView(LogoutView):
     next_page = 'index'
+
+
+def recipe_catalog(request):
+    recipe_per_page = request.GET.get('perPage', 5)
+    recipes = Recipe.objects.all()
+
+    paginator = Paginator(recipes, recipe_per_page)
+    page_number = request.GET.get('page')
+    page_recipes = paginator.get_page(page_number)
+
+    return render(request, 'recipe/recipe_catalog.html', {'page_recipes': page_recipes})
