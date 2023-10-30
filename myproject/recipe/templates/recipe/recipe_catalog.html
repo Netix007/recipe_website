@@ -8,6 +8,14 @@
           <h3><a href="{% url 'recipe_full' recipe.id %}">{{ recipe.name }}</a></h3>
       </div>
     {% endfor %}
+    <form method="get">
+        <label for="perPage">per page:</label>
+        <select name="perPage" id="perPage" onchange="this.form.submit()">
+            <option value="5" {% if page_recipes.paginator.per_page == 5 %} selected {% endif %}>5</option>
+            <option value="10" {% if page_recipes.paginator.per_page == 10 %} selected {% endif %}>10</option>
+            <option value="15" {% if page_recipes.paginator.per_page == 15 %} selected {% endif %}>15</option>
+        </select>
+    </form>
     {% if page_recipes.has_other_pages %}
       <div>
           {% if page_recipes.has_previous %}
